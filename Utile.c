@@ -3,3 +3,12 @@
 //
 
 #include "Utile.h"
+
+#include <stdio.h>
+
+void emptyBuffer() {
+    char c = ' ';
+    while (c != '\n' && c != EOF) {
+        c = getchar();
+    }
+}

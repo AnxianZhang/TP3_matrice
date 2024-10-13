@@ -5,4 +5,6 @@
 #ifndef UTILE_H
 #define UTILE_H
 
+void emptyBuffer();
+
 #endif //UTILE_H
