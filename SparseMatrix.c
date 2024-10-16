@@ -8,6 +8,27 @@
 #include <stdlib.h>
 #include <string.h>
 
+// Initial algorithm
+// LineArray populateLineArray(char *buffer, unsigned int idx) {
+//     Element *e = malloc(sizeof(Element));
+//     if (buffer[idx] == '\0') {
+//         e->next = NULL;
+//         return e;
+//     }
+//
+//     e->column = idx;
+//     e->value = (int) buffer[idx] - '0';
+//
+//     Element *reqE = populateLineArray(buffer, idx + 1);
+//
+//     if (buffer[idx] == '0') {
+//         free(e);
+//         return reqE;
+//     }
+//
+//     e->next = reqE;
+//}
+
 /**
  * Get the substring before the first of ' '
  * and convert it into an integer
@@ -74,4 +95,33 @@ void populateMatrix(SparseMatrix *m, const unsigned int line, const unsigned int
 
         m->matrix[i] = populateLineArray(buffer, 0);
     }
+}
+
+void showLine(const LineArray line) {
+    if (line == NULL) {
+        return;
+    }
+    printf("%d ", line->value);
+    showLine(line->next);
+}
+
+void showPLainLine(const LineArray line, unsigned int maxColumn, unsigned int difference) {
+    if (line == NULL) {
+        return;
+    }
+
+    // line->next->value - line->value > 2, tow because if it's one it means that the tow number is followed
+    if (line->next != NULL && line->next->value - line->value > 2) {
+        printf("0 ");
+        showPLainLine(line, maxColumn, difference - 1);
+    }
+    printf("%d ", line->value);
+    showPLainLine(line->next, maxColumn, difference);
+}
+
+void showMatrix(const SparseMatrix *m) {
+    for (unsigned int i = 0; i < m->maxLines; ++i)
+
+
+
 }
