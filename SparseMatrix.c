@@ -89,7 +89,7 @@ void populateMatrix(SparseMatrix *m, const unsigned int line, const unsigned int
 
     for (unsigned int i = 0; i < m->maxLines; ++i) {
         char buffer[100];
-        printf("\nEnter you %d line:", i);
+        printf("Enter you %d line:", i);
 
         fgets(buffer, sizeof(buffer), stdin);
 
@@ -105,23 +105,37 @@ void showLine(const LineArray line) {
     showLine(line->next);
 }
 
-void showPLainLine(const LineArray line, unsigned int maxColumn, unsigned int difference) {
+void showPLainLine(const LineArray line, unsigned int maxColumn, int columnGap, int isFirst) {
+    if (isFirst){
+        columnGap = !line ? maxColumn : line->column;
+        isFirst = 0;
+    }
+
+    if (columnGap > 0) {
+        for (unsigned int i = 0; i < columnGap; i++)
+            printf("0 ");
+        
+        showPLainLine(line, maxColumn, 0, isFirst);
+    }
+
     if (line == NULL) {
         return;
     }
 
-    // line->next->value - line->value > 2, tow because if it's one it means that the tow number is followed
-    if (line->next != NULL && line->next->value - line->value > 2) {
-        printf("0 ");
-        showPLainLine(line, maxColumn, difference - 1);
+    if (columnGap == 0) {
+        unsigned int newGap = 0;
+
+        newGap = (line->next != NULL ? line->next->column - line->column : maxColumn - line->column) - 1;
+
+        printf("%d ", line->value);
+        showPLainLine(line->next, maxColumn, newGap, 1);
     }
-    printf("%d ", line->value);
-    showPLainLine(line->next, maxColumn, difference);
+
 }
 
 void showMatrix(const SparseMatrix *m) {
-    for (unsigned int i = 0; i < m->maxLines; ++i)
-
-
-
+    for (unsigned int i = 0; i < m->maxLines; ++i){
+        showPLainLine(m->matrix[i], m->maxColumns, 0, 1);
+        printf("\n");
+    }
 }
