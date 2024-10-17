@@ -8,27 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Initial algorithm
-// LineArray populateLineArray(char *buffer, unsigned int idx) {
-//     Element *e = malloc(sizeof(Element));
-//     if (buffer[idx] == '\0') {
-//         e->next = NULL;
-//         return e;
-//     }
-//
-//     e->column = idx;
-//     e->value = (int) buffer[idx] - '0';
-//
-//     Element *reqE = populateLineArray(buffer, idx + 1);
-//
-//     if (buffer[idx] == '0') {
-//         free(e);
-//         return reqE;
-//     }
-//
-//     e->next = reqE;
-//}
-
 /**
  * Get the substring before the first of ' '
  * and convert it into an integer
@@ -97,45 +76,32 @@ void populateMatrix(SparseMatrix *m, const unsigned int line, const unsigned int
     }
 }
 
-void showLine(const LineArray line) {
-    if (line == NULL) {
-        return;
-    }
-    printf("%d ", line->value);
-    showLine(line->next);
-}
-
-void showPLainLine(const LineArray line, unsigned int maxColumn, int columnGap, int isFirst) {
-    if (isFirst){
-        columnGap = !line ? maxColumn : line->column;
-        isFirst = 0;
-    }
-
-    if (columnGap > 0) {
+/**
+ * Show an entire line of a sparse matrix, including 0
+ *
+ * @param line a line of the matrix
+ * @param maxColumn max column of the matrix
+ * @param columnGap gap between the first and the next value of a line
+ */
+void showPLainLine(const LineArray line, unsigned int maxColumn, int columnGap) {
+    if (columnGap > 0)
         for (unsigned int i = 0; i < columnGap; i++)
             printf("0 ");
-        
-        showPLainLine(line, maxColumn, 0, isFirst);
-    }
 
-    if (line == NULL) {
+    if (!line)
         return;
-    }
 
-    if (columnGap == 0) {
-        unsigned int newGap = 0;
+    const unsigned int newGap = (line->next ? line->next->column - line->column : maxColumn - line->column) - 1;
 
-        newGap = (line->next != NULL ? line->next->column - line->column : maxColumn - line->column) - 1;
-
-        printf("%d ", line->value);
-        showPLainLine(line->next, maxColumn, newGap, 1);
-    }
-
+    printf("%d ", line->value);
+    showPLainLine(line->next, maxColumn, newGap);
 }
 
 void showMatrix(const SparseMatrix *m) {
-    for (unsigned int i = 0; i < m->maxLines; ++i){
-        showPLainLine(m->matrix[i], m->maxColumns, 0, 1);
+    for (unsigned int i = 0; i < m->maxLines; ++i) {
+        const int firstGap = !m->matrix[i] ? m->maxColumns : m->matrix[i]->column;
+
+        showPLainLine(m->matrix[i], m->maxColumns, firstGap);
         printf("\n");
     }
 }
