@@ -68,10 +68,40 @@ void populateMatrix(SparseMatrix *m, const unsigned int line, const unsigned int
 
     for (unsigned int i = 0; i < m->maxLines; ++i) {
         char buffer[100];
-        printf("\nEnter you %d line:", i);
+        printf("Enter you %d line:", i);
 
         fgets(buffer, sizeof(buffer), stdin);
 
         m->matrix[i] = populateLineArray(buffer, 0);
+    }
+}
+
+/**
+ * Show an entire line of a sparse matrix, including 0
+ *
+ * @param line a line of the matrix
+ * @param maxColumn max column of the matrix
+ * @param columnGap gap between the first and the next value of a line
+ */
+void showPLainLine(const LineArray line, unsigned int maxColumn, int columnGap) {
+    if (columnGap > 0)
+        for (unsigned int i = 0; i < columnGap; i++)
+            printf("0 ");
+
+    if (!line)
+        return;
+
+    const unsigned int newGap = (line->next ? line->next->column - line->column : maxColumn - line->column) - 1;
+
+    printf("%d ", line->value);
+    showPLainLine(line->next, maxColumn, newGap);
+}
+
+void showMatrix(const SparseMatrix *m) {
+    for (unsigned int i = 0; i < m->maxLines; ++i) {
+        const int firstGap = !m->matrix[i] ? m->maxColumns : m->matrix[i]->column;
+
+        showPLainLine(m->matrix[i], m->maxColumns, firstGap);
+        printf("\n");
     }
 }

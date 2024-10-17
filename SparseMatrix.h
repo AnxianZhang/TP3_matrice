@@ -24,6 +24,11 @@ typedef struct SparseMatrix {
  */
 void populateMatrix(SparseMatrix *m, unsigned int line, unsigned int column);
 
+/**
+ * Show the entire sparse matrix, including 0
+ *
+ * @param m the matrix to be show
+ */
 void showMatrix(const SparseMatrix *m);
 
 void showMatrixArray(const SparseMatrix *m);

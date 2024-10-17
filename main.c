@@ -32,6 +32,9 @@ int main() {
                 populateMatrix(&m, lines, columns);
                 break;
             case '2':
+                // TODO: enable the possibility to créate severa matrix and chose which one to show
+                showMatrix(&m);
+
                 break;
 
             case '3':
