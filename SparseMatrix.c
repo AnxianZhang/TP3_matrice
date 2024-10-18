@@ -132,3 +132,19 @@ int searchValue(const SparseMatrix *m, unsigned int i, unsigned int j) {
 
     return getValueFrom(m->matrix[i - 1], j - 1);
 }
+
+void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
+    // TODO
+}
+
+void sumMatrix(SparseMatrix *m1, SparseMatrix *m2) {
+    // TODO
+}
+
+int getNumberOfGainedOctet(const SparseMatrix *m) {
+    // TODO
+}
+
+void freeMatrix(SparseMatrix* m) {
+    // TODO
+}
