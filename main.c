@@ -41,7 +41,8 @@ int main() {
         printf("\n2. Show matrix");
         printf("\n3. Show line array matrix");
         printf("\n4. Search value");
-        printf("\n7. Sum 2 matrix");
+        printf("\n5. Affect value");
+        printf("\n6. Sum 2 matrix");
         printf("\n8. Leave");
         printf("\n======================================");
         printf("\nYour choice ?");
@@ -89,6 +90,14 @@ int main() {
                 break;
 
             case '5':
+                unsigned int i,j,val;
+                printf("enter the ligne: ");
+                scanf("%d", &i);
+                printf("enter the column: ");
+                scanf("%d", &j);
+                printf("enter the value: ");
+                scanf("%d", &val);
+                affectValue(&m, i, j, val);
                 break;
 
             case '6':

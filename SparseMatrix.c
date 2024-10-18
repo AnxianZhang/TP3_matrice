@@ -1,11 +1,11 @@
 //
 // Created by gadan on 10/10/2024.
+// Authors: ZHANG Anxian & MIGUEU Brayan
 //
 
 #include "stdio.h"
 #include "SparseMatrix.h"
 
-#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -107,6 +107,22 @@ void showMatrix(const SparseMatrix *m) {
     }
 }
 
+void showMatrixList(SparseMatrix m) {
+    int i;
+    LineArray head;
+    for (i = 0; i < m.maxLines; ++i) {
+        head = m.matrix[i];
+        printf("\n| |==>");
+        while (head) {
+            if(head->value !=0) {
+                printf("||val: %d - col: %d||==> ", head->value,head->column);
+                head = head->next;
+            }
+        }
+        printf("|x|\n");
+    }
+}
+
 /**
  * Search the value of a provided column
  *
@@ -135,7 +151,51 @@ int searchValue(const SparseMatrix *m, unsigned int i, unsigned int j) {
 }
 
 void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
-    // TODO
+    if (val != 0 && i< m->maxLines && j< m->maxColumns){
+        int test = 0;
+        LineArray head;
+        head = m->matrix[i];
+        while (head) {
+            if (head->column == j) { // if element i j exist
+                head->value = val;
+                test = 1; // element i j exist
+                head = NULL; // to get it out of the loop while
+            }
+            head = head->next;
+        }
+        if (test == 0) { // element i j does not exist in matrix
+            LineArray element = (Element *)malloc(sizeof(Element));
+            element->value = val;
+            head = m->matrix[i];
+            if (head == NULL) {
+                element->next = NULL;
+                head = element;
+            }
+            else {
+                int find=0;
+                if (head->column > j) {
+                    element->next = head;
+                    head->next = element;
+                    find = 1;
+                    head=NULL;
+                }
+                LineArray head2;
+                while (head) {
+                    if (head->column < j && (head->next)->column > j) {
+                        element->next = head->next;
+                        head->next = element;
+                        find=1;
+                    }
+                    head2=head;
+                    head = head->next;
+                }
+                if(find==0) { // j > all j in matrix
+                    element->next = NULL;
+                    head2->next = element;
+                }
+            }
+        }
+    }
 }
 
 Element *copyElement(const Element *element) {
