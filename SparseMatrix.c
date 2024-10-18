@@ -68,7 +68,7 @@ void populateMatrix(SparseMatrix *m, const unsigned int line, const unsigned int
 
     for (unsigned int i = 0; i < m->maxLines; ++i) {
         char buffer[100];
-        printf("Enter you %d line:", i);
+        printf("Enter you %d line:", i + 1);
 
         fgets(buffer, sizeof(buffer), stdin);
 
