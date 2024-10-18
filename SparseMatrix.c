@@ -105,3 +105,30 @@ void showMatrix(const SparseMatrix *m) {
         printf("\n");
     }
 }
+
+/**
+ * Search the value of a provided column
+ *
+ * @param line the matrix line
+ * @param target the column that we're searching for
+ * @return the value at the specified column
+ */
+int getValueFrom(const LineArray line, unsigned int target) {
+    if (line->column > target || (!line->next && line->column < target))
+        return 0;
+
+    if (line->column == target)
+        return line->value;
+
+    return getValueFrom(line->next, target);
+}
+
+int searchValue(const SparseMatrix *m, unsigned int i, unsigned int j) {
+    if (i > m->maxLines || j > m->maxColumns || i == 0 || j == 0)
+        return -1;
+
+    // if the matrix is null, it means that all the value of line i - 1 are equal to 0
+    if (!m->matrix[i - 1]) return 0;
+
+    return getValueFrom(m->matrix[i - 1], j - 1);
+}
