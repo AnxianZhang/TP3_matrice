@@ -33,6 +33,14 @@ void showMatrix(const SparseMatrix *m);
 
 void showMatrixArray(const SparseMatrix *m);
 
+/**
+ * Search a value from the coordinate given by the user
+ *
+ * @param m the matrix given by the user
+ * @param i number of line € [0, n -1]
+ * @param j number of column € [0, n -1]
+ * @return the value at i j
+ */
 int searchValue(const SparseMatrix *m, unsigned int i, unsigned int j);
 
 void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val);
