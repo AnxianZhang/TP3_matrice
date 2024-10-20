@@ -43,6 +43,7 @@ int main() {
         printf("\n4. Search value");
         printf("\n5. Affect value");
         printf("\n6. Sum 2 matrix");
+        printf("\n7. Get number of gained octet");
         printf("\n8. Leave");
         printf("\n======================================");
         printf("\nYour choice ?");
@@ -97,7 +98,7 @@ int main() {
                 scanf("%d", &j);
                 printf("enter the value: ");
                 scanf("%d", &val);
-                affectValue(&m, i, j, val);
+                addValueAt(&m, i,j, val);
                 break;
 
             case '6':
@@ -116,6 +117,9 @@ int main() {
                 break;
 
             case '7':
+                printf("\n=================================\n");
+                printf("\n number of octet is : %d\n",getNumberOfGainedOctet(&m));
+                printf("\n=================================\n");
                 break;
 
             case '8':

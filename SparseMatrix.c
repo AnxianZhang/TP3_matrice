@@ -107,12 +107,12 @@ void showMatrix(const SparseMatrix *m) {
     }
 }
 
-void showMatrixList(SparseMatrix m) {
+void showMatrixArray(const SparseMatrix *m) {
     int i;
     LineArray head;
-    for (i = 0; i < m.maxLines; ++i) {
-        head = m.matrix[i];
-        printf("\n| |==>");
+    for (i = 0; i < m->maxLines; ++i) {
+        head = m->matrix[i];
+        printf("\n| %d |==>",i);
         while (head) {
             if(head->value !=0) {
                 printf("||val: %d - col: %d||==> ", head->value,head->column);
@@ -159,43 +159,55 @@ void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
             if (head->column == j) { // if element i j exist
                 head->value = val;
                 test = 1; // element i j exist
-                head = NULL; // to get it out of the loop while
+                return ;
             }
             head = head->next;
         }
         if (test == 0) { // element i j does not exist in matrix
             LineArray element = (Element *)malloc(sizeof(Element));
             element->value = val;
+            element->column = j;
             head = m->matrix[i];
             if (head == NULL) {
                 element->next = NULL;
-                head = element;
+                m->matrix[i] = element;
             }
             else {
-                int find=0;
                 if (head->column > j) {
                     element->next = head;
-                    head->next = element;
-                    find = 1;
-                    head=NULL;
+                    m->matrix[i] = element;
+                    return;
                 }
-                LineArray head2;
-                while (head) {
+                while (head->next) {
                     if (head->column < j && (head->next)->column > j) {
                         element->next = head->next;
                         head->next = element;
-                        find=1;
+                        return;
                     }
-                    head2=head;
                     head = head->next;
                 }
-                if(find==0) { // j > all j in matrix
-                    element->next = NULL;
-                    head2->next = element;
-                }
+                 // j > all j in matrix
+                element->next = NULL;
+                head->next = element;
             }
         }
     }
+}
+
+ int getNumberOfGainedOctet(const SparseMatrix *m) {
+    int i, counter=0;
+    counter=sizeof(m);
+    printf("case de m : %d",sizeof(m[1]));
+    printf("case de matrix : %d",sizeof(m->matrix[1]));
+    LineArray head;
+    for (i = 0; i < m->maxLines; ++i) {
+        head = m->matrix[i];
+        while (head) {
+            counter+=sizeof(Element);
+            head = head->next;
+        }
+    }
+    return counter;
 }
 
 Element *copyElement(const Element *element) {
@@ -243,10 +255,6 @@ void sumMatrix(SparseMatrix *m1, const SparseMatrix *m2) {
         }
     }
     printf("\n");
-}
-
-int getNumberOfGainedOctet(const SparseMatrix *m) {
-    // TODO
 }
 
 void freeMatrix(SparseMatrix *m) {
