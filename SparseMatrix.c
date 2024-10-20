@@ -137,7 +137,7 @@ void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
     // TODO
 }
 
-void sumMatrix(SparseMatrix *m1, SparseMatrix *m2) {
+void sumMatrix(SparseMatrix *m1, const SparseMatrix *m2) {
     // TODO
 }
 

@@ -45,7 +45,7 @@ int searchValue(const SparseMatrix *m, unsigned int i, unsigned int j);
 
 void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val);
 
-void sumMatrix(SparseMatrix *m1, SparseMatrix *m2);
+void sumMatrix(SparseMatrix *m1, const SparseMatrix *m2);
 
 int getNumberOfGainedOctet(const SparseMatrix *m);
 
