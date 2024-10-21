@@ -132,7 +132,7 @@ int main() {
         emptyBuffer();
     }
 
-    // TODO freeMatrix();
+    //freeMatrix(&m);
     free(m);
 
     return 0;

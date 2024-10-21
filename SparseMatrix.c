@@ -197,8 +197,8 @@ void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
  int getNumberOfGainedOctet(const SparseMatrix *m) {
     int i, counter=0;
     counter=sizeof(m);
-    printf("case de m : %d",sizeof(m[1]));
-    printf("case de matrix : %d",sizeof(m->matrix[1]));
+    //printf("case de m : %d",sizeof(m[1]));
+    //printf("case de matrix : %d",sizeof(m->matrix[1]));
     LineArray head;
     for (i = 0; i < m->maxLines; ++i) {
         head = m->matrix[i];
@@ -258,5 +258,15 @@ void sumMatrix(SparseMatrix *m1, const SparseMatrix *m2) {
 }
 
 void freeMatrix(SparseMatrix *m) {
-    // TODO
+    int i;
+    LineArray head, temp;
+    for (i = 0; i < m->maxLines; ++i) {
+        head = m->matrix[i];
+        while (head) {
+            temp = head;
+            free(temp);
+            head = head->next;
+        }
+    }
+    free(m);
 }
