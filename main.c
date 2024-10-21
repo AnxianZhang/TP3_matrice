@@ -3,16 +3,6 @@
 #include "SparseMatrix.h"
 #include "Utile.h"
 
-int getUserNumber(const char *message) {
-    unsigned int number = 0;
-
-    printf(message);
-    scanf("%d", &number);
-    emptyBuffer();
-
-    return number;
-}
-
 int getNumberOfMatrix(unsigned int currentNumberOfMatrix) {
     int value = getUserNumber("Which matrix you want to use for ?");
     if (value <= 0 || value > currentNumberOfMatrix) return -1;
