@@ -7,4 +7,6 @@
 
 void emptyBuffer();
 
+int getUserNumber(const char *message);
+
 #endif //UTILE_H

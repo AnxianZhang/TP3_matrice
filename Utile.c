@@ -12,3 +12,13 @@ void emptyBuffer() {
         c = getchar();
     }
 }
+
+int getUserNumber(const char *message) {
+    unsigned int number = 0;
+
+    printf(message);
+    scanf("%d", &number);
+    emptyBuffer();
+
+    return number;
+}
