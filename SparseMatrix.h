@@ -45,6 +45,11 @@ int searchValue(const SparseMatrix *m, unsigned int i, unsigned int j);
 
 void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val);
 
+/**
+ * Make the sum of two matrix, and store the new one in the first matrix
+ * @param m1 first matrix
+ * @param m2 second matrix
+ */
 void sumMatrix(SparseMatrix *m1, const SparseMatrix *m2);
 
 int getNumberOfGainedOctet(const SparseMatrix *m);

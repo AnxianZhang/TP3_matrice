@@ -5,6 +5,7 @@
 #include "stdio.h"
 #include "SparseMatrix.h"
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -137,14 +138,57 @@ void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
     // TODO
 }
 
+Element *copyElement(const Element *element) {
+    Element *copy = malloc(sizeof(Element));
+
+    if (!copy) return NULL;
+
+    copy->column = element->column;
+    copy->value = element->value;
+
+    return copy;
+}
+
 void sumMatrix(SparseMatrix *m1, const SparseMatrix *m2) {
-    // TODO
+    for (unsigned int i = 0; i < m1->maxLines; ++i) {
+        Element *headM1 = m1->matrix[i];
+        Element *headM2 = m2->matrix[i];
+        Element *previousM1 = NULL;
+
+        while (headM1 || headM2) {
+            if (headM1 && (!headM2 || headM1->column < headM2->column)) {
+                previousM1 = headM1;
+                headM1 = headM1->next;
+            } else if (!headM1 || headM1->column > headM2->column) {
+                Element *copy = copyElement(headM2);
+
+                if (previousM1) {
+                    previousM1->next = copy;
+                } else {
+                    m1->matrix[i] = copy;
+                }
+
+                copy->next = headM1;
+                previousM1 = copy;
+
+                headM2 = headM2->next;
+            } else {
+                // headM1->column == headM2->column
+                headM1->value += headM2->value;
+
+                previousM1 = headM1;
+                headM1 = headM1->next;
+                headM2 = headM2->next;
+            }
+        }
+    }
+    printf("\n");
 }
 
 int getNumberOfGainedOctet(const SparseMatrix *m) {
     // TODO
 }
 
-void freeMatrix(SparseMatrix* m) {
+void freeMatrix(SparseMatrix *m) {
     // TODO
 }
