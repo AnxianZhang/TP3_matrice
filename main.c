@@ -99,15 +99,21 @@ int main() {
                 break;
 
             case '5':
-                unsigned int i, j, val;
-                printf("enter the ligne: ");
-                scanf("%d", &i);
-                printf("enter the column: ");
-                scanf("%d", &j);
-                printf("enter the value: ");
-                scanf("%d", &val);
-                addValueAt(&m, i, j, val);
-                break;
+                selectedMatrix = getNumberOfMatrix(usedSize);
+                if (selectedMatrix == -1)
+                    printf("Invalid value, please retry");
+                else {
+                    line = getUserNumber("Please enter the number of line that you want to affect value :");
+                    column = getUserNumber("Please enter the number of column that you want to affect value :");
+                    int value = getUserNumber("Please enter the number you want to insert :");
+                    if (value == 0 || line > m[selectedMatrix - 1]->maxLines || column > m[selectedMatrix - 1]->
+                        maxColumns) {
+                        printf("Invalid value, please retry");
+                        break;
+                    }
+                    addValueAt(m[selectedMatrix - 1], line - 1, column - 1, value);
+                    break;
+                }
 
             case '6':
                 selectedMatrix = getNumberOfMatrix(usedSize);
@@ -126,9 +132,13 @@ int main() {
                 break;
 
             case '7':
-                printf("\n=================================\n");
-                printf("\n number of octet is : %d\n", getNumberOfGainedOctet(&m));
-                printf("\n=================================\n");
+                selectedMatrix = getNumberOfMatrix(usedSize);
+                if (selectedMatrix == -1)
+                    printf("Invalid value, please retry");
+                else {
+                    printf("\n-----> Matrix number %d <-----\n");
+                    printf("\n number of octet is : %d\n", getNumberOfGainedOctet(m[selectedMatrix - 1]));
+                }
                 break;
 
             case '8':
@@ -136,7 +146,7 @@ int main() {
                 break;
 
             default:
-                printf("\n\nERREUR : votre choix n'est valide ! ");
+                printf("\n\nERROR : INVALID CHOICE ! ");
         }
         emptyBuffer();
     }

@@ -112,10 +112,10 @@ void showMatrixArray(const SparseMatrix *m) {
     LineArray head;
     for (i = 0; i < m->maxLines; ++i) {
         head = m->matrix[i];
-        printf("\n| %d |  ==>  ",i);
+        printf("\n| %d |  ==>  ", i);
         while (head) {
-            if(head->value !=0) {
-                printf("||val: %d - col: %d||  ==>  ", head->value,head->column);
+            if (head->value != 0) {
+                printf("||val: %d - col: %d||  ==>  ", head->value, head->column);
                 head = head->next;
             }
         }
@@ -151,59 +151,60 @@ int searchValue(const SparseMatrix *m, unsigned int i, unsigned int j) {
 }
 
 void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
-    if (val != 0 && i< m->maxLines && j< m->maxColumns){
-        int test = 0;
-        LineArray head;
-        head = m->matrix[i];
-        while (head) {
-            if (head->column == j) { // if element i j exist
-                head->value = val;
-                test = 1; // element i j exist
-                return ;
-            }
-            head = head->next;
-        }
-        if (test == 0) { // element i j does not exist in matrix
-            LineArray element = (Element *)malloc(sizeof(Element));
-            element->value = val;
-            element->column = j;
+        if (val != 0 && i < m->maxLines && j < m->maxColumns) {
+            int test = 0;
+            LineArray head;
             head = m->matrix[i];
-            if (head == NULL) {
-                element->next = NULL;
-                m->matrix[i] = element;
-            }
-            else {
-                if (head->column > j) {
-                    element->next = head;
-                    m->matrix[i] = element;
+            while (head) {
+                if (head->column == j) {
+                    // if element i j exist
+                    head->value = val;
+                    test = 1; // element i j exist
                     return;
                 }
-                while (head->next) {
-                    if (head->column < j && (head->next)->column > j) {
-                        element->next = head->next;
-                        head->next = element;
+                head = head->next;
+            }
+            if (test == 0) {
+                // element i j does not exist in matrix
+                LineArray element = (Element *) malloc(sizeof(Element));
+                element->value = val;
+                element->column = j;
+                head = m->matrix[i];
+                if (head == NULL) {
+                    element->next = NULL;
+                    m->matrix[i] = element;
+                } else {
+                    if (head->column > j) {
+                        element->next = head;
+                        m->matrix[i] = element;
                         return;
                     }
-                    head = head->next;
+                    while (head->next) {
+                        if (head->column < j && (head->next)->column > j) {
+                            element->next = head->next;
+                            head->next = element;
+                            return;
+                        }
+                        head = head->next;
+                    }
+                    // j > all j in matrix
+                    element->next = NULL;
+                    head->next = element;
                 }
-                 // j > all j in matrix
-                element->next = NULL;
-                head->next = element;
             }
         }
-    }
 }
 
- int getNumberOfGainedOctet(const SparseMatrix *m) {
-    int i, counter=0;
-    counter=sizeof(m);
+int getNumberOfGainedOctet(const SparseMatrix *m) {
+    int i, counter = 0;
+    counter = sizeof(m);
     //printf("case de m : %d",sizeof(m[1]));
     //printf("case de matrix : %d",sizeof(m->matrix[1]));
     LineArray head;
     for (i = 0; i < m->maxLines; ++i) {
         head = m->matrix[i];
         while (head) {
-            counter+=sizeof(Element);
+            counter += sizeof(Element);
             head = head->next;
         }
     }
