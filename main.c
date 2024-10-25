@@ -72,6 +72,14 @@ int main() {
                 break;
 
             case '3':
+                selectedMatrix = getNumberOfMatrix(usedSize);
+
+                if (selectedMatrix == -1)
+                    printf("Invalid value, please retry");
+                else {
+                    printf("\n-----> Matrix number %d <-----\n", selectedMatrix);
+                    showMatrixArray(m[selectedMatrix - 1]);
+                }
                 break;
 
             case '4':
@@ -91,14 +99,14 @@ int main() {
                 break;
 
             case '5':
-                unsigned int i,j,val;
+                unsigned int i, j, val;
                 printf("enter the ligne: ");
                 scanf("%d", &i);
                 printf("enter the column: ");
                 scanf("%d", &j);
                 printf("enter the value: ");
                 scanf("%d", &val);
-                addValueAt(&m, i,j, val);
+                addValueAt(&m, i, j, val);
                 break;
 
             case '6':
@@ -111,14 +119,15 @@ int main() {
                     printf("Both matrix should have the same number of line and column, please retry");
                 else {
                     sumMatrix(m[selectedMatrix - 1], m[secondSelectedMatrix - 1]);
-                    printf("The result us in the first selected matrix:\n-----> Matrix number %d <-----\n", selectedMatrix);
+                    printf("The result us in the first selected matrix:\n-----> Matrix number %d <-----\n",
+                           selectedMatrix);
                     showMatrix(m[selectedMatrix - 1]);
                 }
                 break;
 
             case '7':
                 printf("\n=================================\n");
-                printf("\n number of octet is : %d\n",getNumberOfGainedOctet(&m));
+                printf("\n number of octet is : %d\n", getNumberOfGainedOctet(&m));
                 printf("\n=================================\n");
                 break;
 

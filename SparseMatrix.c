@@ -112,10 +112,10 @@ void showMatrixArray(const SparseMatrix *m) {
     LineArray head;
     for (i = 0; i < m->maxLines; ++i) {
         head = m->matrix[i];
-        printf("\n| %d |==>",i);
+        printf("\n| %d |  ==>  ",i);
         while (head) {
             if(head->value !=0) {
-                printf("||val: %d - col: %d||==> ", head->value,head->column);
+                printf("||val: %d - col: %d||  ==>  ", head->value,head->column);
                 head = head->next;
             }
         }
