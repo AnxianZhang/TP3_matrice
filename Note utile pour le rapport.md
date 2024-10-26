@@ -1,3 +1,5 @@
+## Optimisation
+
 #### Optimisation de la fonction manageMatrixArray():
 ```c
 void manageMatrixArray(SparseMatrix ***m, unsigned int *max, const unsigned int *current) {  
@@ -101,3 +103,62 @@ void test() {
 }
 
 ```
+
+### Calcule des complexités
+
+**populateMatrix** :
+```c
+int getNumber(const char *src, const char *substring) {
+    char destination[100] = {0};//                         1
+
+    if (substring == NULL)//                               1
+        return atoi(src);
+
+    const unsigned int length = substring - src;//         2
+    strncpy(destination, src, length);//                   1
+    destination[length] = '\0';//                          1
+
+    return atoi(destination);
+}
+
+
+LineArray populateLineArray(const char *buffer, unsigned short idx) {
+    if (buffer == NULL || buffer[0] == '\0') { //           3
+        return NULL;
+    }
+
+    char *subBuffer = strchr(buffer, ' '); //               1
+
+    if (subBuffer != NULL)//                                1
+        subBuffer = subBuffer + 1;//                        2
+
+    const int value = getNumber(buffer, subBuffer);//       1
+    Element *next = populateLineArray(subBuffer, idx + 1);//maxColumn = m
+
+    if (value == 0)//                                       1
+        return next;
+
+    Element *current = malloc(sizeof(Element));//           1
+    current->column = idx;//                                1
+    current->value = value;//                               1
+    current->next = next;//                                 1
+
+    return current;
+}
+
+void populateMatrix(SparseMatrix *m, const unsigned int line, const unsigned int column) {
+    m->maxColumns = column;//                               1
+    m->maxLines = line;//                                   1
+    m->matrix = malloc(sizeof(LineArray) * m->maxLines);//  1
+
+    for (unsigned int i = 0; i < m->maxLines; ++i) {//      maxLine = n
+        char buffer[100] = {0};//                           1
+        printf("Enter you %d line:", i + 1);
+
+        fgets(buffer, sizeof(buffer), stdin);//             1
+
+        m->matrix[i] = populateLineArray(buffer, 0);//      1
+    }
+}
+```
+```[!info] la complexité de populate matrix est de O(n*m)```
