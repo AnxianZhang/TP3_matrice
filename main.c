@@ -110,7 +110,7 @@ int main() {
                     line = getUserNumber("Please enter the number of line that you want to affect value :");
                     column = getUserNumber("Please enter the number of column that you want to affect value :");
                     int value = getUserNumber("Please enter the number you want to insert :");
-                    if (value == 0 || line > sparseMatrixList->list[selectedMatrix - 1]->maxLines ||
+                    if (line > sparseMatrixList->list[selectedMatrix - 1]->maxLines ||
                         column > sparseMatrixList->list[selectedMatrix - 1]->maxColumns) {
                         printf("Invalid value, please retry");
                         break;

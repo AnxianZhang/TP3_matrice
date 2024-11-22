@@ -150,7 +150,7 @@ int searchValue(const SparseMatrix *m, unsigned int i, unsigned int j) {
     return getValueFrom(m->matrix[i - 1], j - 1);
 }
 
-void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, unsigned int val) {
+void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
     if (val != 0 && i < m->maxLines && j < m->maxColumns) {
         int test = 0;
         LineArray head;

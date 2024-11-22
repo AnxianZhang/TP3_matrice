@@ -43,7 +43,7 @@ void showMatrixArray(const SparseMatrix *m);
  */
 int searchValue(const SparseMatrix *m, unsigned int i, unsigned int j);
 
-void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, unsigned int val);
+void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val);
 
 /**
  * Make the sum of two matrix, and store the new one in the first matrix
