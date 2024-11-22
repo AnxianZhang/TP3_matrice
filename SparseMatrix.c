@@ -211,6 +211,13 @@ int getNumberOfGainedOctet(const SparseMatrix *m) {
     return counter;
 }
 
+int getNumberOfGainedOctetWith_0(const SparseMatrix *m) {
+    int  counter = 0;
+    counter = sizeof(m);
+    counter = counter+ m->maxColumns*m->maxLines*sizeof(Element);
+    return counter;
+}
+
 Element *copyElement(const Element *element) {
     Element *copy = malloc(sizeof(Element));
 
@@ -269,5 +276,11 @@ void freeMatrix(SparseMatrix *m) {
             head = head->next;
         }
     }
+    free(m);
+}
+void freeMatrixArray(SparseMatrix ***m,int usedSize) {
+    int i;
+    for(i = 0; i < usedSize; i++)
+        freeMatrix((*m)[i]);
     free(m);
 }

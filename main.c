@@ -137,7 +137,8 @@ int main() {
                     printf("Invalid value, please retry");
                 else {
                     printf("\n-----> Matrix number %d <-----\n");
-                    printf("\n number of octet is : %d\n", getNumberOfGainedOctet(m[selectedMatrix - 1]));
+                    printf("\n number of octet without 0 is : %d\n", getNumberOfGainedOctet(m[selectedMatrix - 1]));
+                    printf("\n number of octet with 0 is : %d\n", getNumberOfGainedOctetWith_0(m[selectedMatrix - 1]));
                 }
                 break;
 
@@ -151,8 +152,8 @@ int main() {
         emptyBuffer();
     }
 
-    //freeMatrix(&m);
-    free(m);
+    freeMatrixArray(&m,usedSize);
+    //free(m);
 
     return 0;
 }

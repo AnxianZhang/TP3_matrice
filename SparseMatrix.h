@@ -54,6 +54,10 @@ void sumMatrix(SparseMatrix *m1, const SparseMatrix *m2);
 
 int getNumberOfGainedOctet(const SparseMatrix *m);
 
+int getNumberOfGainedOctetWith_0(const SparseMatrix *m);
+
+void freeMatrixArray(SparseMatrix ***m,int usedSize);
+
 void freeMatrix(SparseMatrix *m);
 
 #endif //SPARSEMATRIX_H
