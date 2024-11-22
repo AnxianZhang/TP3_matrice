@@ -43,20 +43,18 @@ void showMatrixArray(const SparseMatrix *m);
  */
 int searchValue(const SparseMatrix *m, unsigned int i, unsigned int j);
 
-void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val);
+void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, unsigned int val);
 
 /**
  * Make the sum of two matrix, and store the new one in the first matrix
  * @param m1 first matrix
  * @param m2 second matrix
  */
-void sumMatrix(SparseMatrix *m1, const SparseMatrix *m2);
+void sumMatrix(const SparseMatrix *m1, const SparseMatrix *m2);
 
 int getNumberOfGainedOctet(const SparseMatrix *m);
 
 int getNumberOfGainedOctetWith_0(const SparseMatrix *m);
-
-void freeMatrixArray(SparseMatrix ***m,int usedSize);
 
 void freeMatrix(SparseMatrix *m);
 

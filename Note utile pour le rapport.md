@@ -6,7 +6,7 @@ void manageMatrixArray(SparseMatrix ***m, unsigned int *max, const unsigned int 
         SparseMatrix **newM = malloc(sizeof(SparseMatrix *) * *max);  
   
         for (unsigned int i = 0; i < *current; ++i)  
-            newM[i] = *m[i];  
+            newM[i] = *m[i];
   
         free(*m);  
   

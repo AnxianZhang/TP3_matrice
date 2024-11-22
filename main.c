@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "SparseMatrix.h"
+#include "SparseMatrixList.h"
 #include "Utile.h"
+
+#define INITIAL_MATRIX_SIZE 2
 
 int getNumberOfMatrix(unsigned int currentNumberOfMatrix) {
     int value = getUserNumber("Which matrix you want to use for ?");
@@ -9,25 +12,26 @@ int getNumberOfMatrix(unsigned int currentNumberOfMatrix) {
     return value;
 }
 
-void manageMatrixArray(SparseMatrix ***m, unsigned int *max, const unsigned int *current) {
-    if (*current == *max) {
-        *max += 5;
-        SparseMatrix **newM = malloc(sizeof(SparseMatrix *) * *max);
-
-        for (unsigned int i = 0; i < *current; ++i)
-            newM[i] = (*m)[i];
-
-        // TODO: freeMatrix();
-        free(*m);
-
-        *m = newM;
-    }
-}
+// void manageMatrixArray(SparseMatrix ***m, unsigned int *max, const unsigned int *current) {
+//     if (*current == *max) {
+//         *max += 5;
+//         SparseMatrix **newM = malloc(sizeof(SparseMatrix *) * *max);
+//
+//         for (unsigned int i = 0; i < *current; ++i)
+//             newM[i] = (*m)[i];
+//
+//         free(*m);
+//
+//         *m = newM;
+//     }
+// }
 
 int main() {
-    unsigned int maxSize = 2, usedSize = 0;
+    // unsigned int maxSize = 2, usedSize = 0;
+    //
+    // SparseMatrix **m = malloc(sizeof(SparseMatrix *) * maxSize);
 
-    SparseMatrix **m = malloc(sizeof(SparseMatrix *) * maxSize);
+    SparseMatrixList *sparseMatrixList = createSparseMatrixList(INITIAL_MATRIX_SIZE, 0);
 
     // ============= UI ============= */
     char choice = '0';
@@ -54,43 +58,43 @@ int main() {
             case '1':
                 line = getUserNumber("Please enter the number of lines for the matrix:");
                 column = getUserNumber("Please enter the number of columns for the matrix:");
-
-                manageMatrixArray(&m, &maxSize, &usedSize);
-                m[usedSize] = malloc(sizeof(SparseMatrix));
-                populateMatrix(m[usedSize++], line, column);
+                addMatrixInList(sparseMatrixList, line, column);
+            // manageMatrixArray(sparseMatrixList);
+            // m[usedSize] = malloc(sizeof(SparseMatrix));
+            // populateMatrix(m[usedSize++], line, column);
                 break;
 
             case '2':
-                selectedMatrix = getNumberOfMatrix(usedSize);
+                selectedMatrix = getNumberOfMatrix(sparseMatrixList->usedSpace);
 
                 if (selectedMatrix == -1)
                     printf("Invalid value, please retry");
                 else {
                     printf("\n-----> Matrix number %d <-----\n", selectedMatrix);
-                    showMatrix(m[selectedMatrix - 1]);
+                    showMatrix(sparseMatrixList->list[selectedMatrix - 1]);
                 }
                 break;
 
             case '3':
-                selectedMatrix = getNumberOfMatrix(usedSize);
+                selectedMatrix = getNumberOfMatrix(sparseMatrixList->usedSpace);
 
                 if (selectedMatrix == -1)
                     printf("Invalid value, please retry");
                 else {
                     printf("\n-----> Matrix number %d <-----\n", selectedMatrix);
-                    showMatrixArray(m[selectedMatrix - 1]);
+                    showMatrixArray(sparseMatrixList->list[selectedMatrix - 1]);
                 }
                 break;
 
             case '4':
-                selectedMatrix = getNumberOfMatrix(usedSize);
+                selectedMatrix = getNumberOfMatrix(sparseMatrixList->usedSpace);
                 if (selectedMatrix == -1)
                     printf("Invalid value, please retry");
                 else {
                     line = getUserNumber("Please enter the number of line that you searching for:");
                     column = getUserNumber("Please enter the number of column that you searching for:");
 
-                    const int value = searchValue(m[selectedMatrix - 1], line, column);
+                    const int value = searchValue(sparseMatrixList->list[selectedMatrix - 1], line, column);
                     if (value == -1)
                         printf("The value doesn't exist for line %d, column %d! \n", line, column);
                     else
@@ -99,46 +103,50 @@ int main() {
                 break;
 
             case '5':
-                selectedMatrix = getNumberOfMatrix(usedSize);
+                selectedMatrix = getNumberOfMatrix(sparseMatrixList->usedSpace);
                 if (selectedMatrix == -1)
                     printf("Invalid value, please retry");
                 else {
                     line = getUserNumber("Please enter the number of line that you want to affect value :");
                     column = getUserNumber("Please enter the number of column that you want to affect value :");
                     int value = getUserNumber("Please enter the number you want to insert :");
-                    if (value == 0 || line > m[selectedMatrix - 1]->maxLines || column > m[selectedMatrix - 1]->
-                        maxColumns) {
+                    if (value == 0 || line > sparseMatrixList->list[selectedMatrix - 1]->maxLines ||
+                        column > sparseMatrixList->list[selectedMatrix - 1]->maxColumns) {
                         printf("Invalid value, please retry");
                         break;
                     }
-                    addValueAt(m[selectedMatrix - 1], line - 1, column - 1, value);
-                    break;
+                    addValueAt(sparseMatrixList->list[selectedMatrix - 1], line - 1, column - 1, value);
                 }
+                break;
 
             case '6':
-                selectedMatrix = getNumberOfMatrix(usedSize);
-                int secondSelectedMatrix = getNumberOfMatrix(usedSize);
+                selectedMatrix = getNumberOfMatrix(sparseMatrixList->usedSpace);
+                int secondSelectedMatrix = getNumberOfMatrix(sparseMatrixList->usedSpace);
                 if (selectedMatrix == -1 || secondSelectedMatrix == -1)
                     printf("The number of one of the matrix isn't valid, please retry");
-                else if (m[selectedMatrix - 1]->maxColumns != m[secondSelectedMatrix - 1]->maxColumns && m[
-                             selectedMatrix - 1]->maxLines != m[secondSelectedMatrix - 1]->maxLines)
+                    // else if (m[selectedMatrix - 1]->maxColumns != m[secondSelectedMatrix - 1]->maxColumns && m[
+                    //              selectedMatrix - 1]->maxLines != m[secondSelectedMatrix - 1]->maxLines)
+                else if (isSelectedMatrixSame(sparseMatrixList, selectedMatrix - 1, secondSelectedMatrix - 1))
                     printf("Both matrix should have the same number of line and column, please retry");
                 else {
-                    sumMatrix(m[selectedMatrix - 1], m[secondSelectedMatrix - 1]);
+                    sumMatrix(sparseMatrixList->list[selectedMatrix - 1],
+                              sparseMatrixList->list[secondSelectedMatrix - 1]);
                     printf("The result us in the first selected matrix:\n-----> Matrix number %d <-----\n",
                            selectedMatrix);
-                    showMatrix(m[selectedMatrix - 1]);
+                    showMatrix(sparseMatrixList->list[selectedMatrix - 1]);
                 }
                 break;
 
             case '7':
-                selectedMatrix = getNumberOfMatrix(usedSize);
+                selectedMatrix = getNumberOfMatrix(sparseMatrixList->usedSpace);
                 if (selectedMatrix == -1)
                     printf("Invalid value, please retry");
                 else {
                     printf("\n-----> Matrix number %d <-----\n");
-                    printf("\n number of octet without 0 is : %d\n", getNumberOfGainedOctet(m[selectedMatrix - 1]));
-                    printf("\n number of octet with 0 is : %d\n", getNumberOfGainedOctetWith_0(m[selectedMatrix - 1]));
+                    printf("\nNumber of octet without 0 is: %d",
+                           getNumberOfGainedOctet(sparseMatrixList->list[selectedMatrix - 1]));
+                    printf("\nNumber of octet if all 0 are stored: %d\n",
+                           getNumberOfGainedOctetWith_0(sparseMatrixList->list[selectedMatrix - 1]));
                 }
                 break;
 
@@ -152,7 +160,7 @@ int main() {
         emptyBuffer();
     }
 
-    freeMatrixArray(&m,usedSize);
+    freeMatrixArray(&sparseMatrixList, sparseMatrixList->usedSpace);
     //free(m);
 
     return 0;

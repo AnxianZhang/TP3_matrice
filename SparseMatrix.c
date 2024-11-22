@@ -150,49 +150,49 @@ int searchValue(const SparseMatrix *m, unsigned int i, unsigned int j) {
     return getValueFrom(m->matrix[i - 1], j - 1);
 }
 
-void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
-        if (val != 0 && i < m->maxLines && j < m->maxColumns) {
-            int test = 0;
-            LineArray head;
+void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, unsigned int val) {
+    if (val != 0 && i < m->maxLines && j < m->maxColumns) {
+        int test = 0;
+        LineArray head;
+        head = m->matrix[i];
+        while (head) {
+            if (head->column == j) {
+                // if element i j exist
+                head->value = val;
+                test = 1; // element i j exist
+                return;
+            }
+            head = head->next;
+        }
+        if (test == 0) {
+            // element i j does not exist in matrix
+            LineArray element = (Element *) malloc(sizeof(Element));
+            element->value = val;
+            element->column = j;
             head = m->matrix[i];
-            while (head) {
-                if (head->column == j) {
-                    // if element i j exist
-                    head->value = val;
-                    test = 1; // element i j exist
+            if (head == NULL) {
+                element->next = NULL;
+                m->matrix[i] = element;
+            } else {
+                if (head->column > j) {
+                    element->next = head;
+                    m->matrix[i] = element;
                     return;
                 }
-                head = head->next;
-            }
-            if (test == 0) {
-                // element i j does not exist in matrix
-                LineArray element = (Element *) malloc(sizeof(Element));
-                element->value = val;
-                element->column = j;
-                head = m->matrix[i];
-                if (head == NULL) {
-                    element->next = NULL;
-                    m->matrix[i] = element;
-                } else {
-                    if (head->column > j) {
-                        element->next = head;
-                        m->matrix[i] = element;
+                while (head->next) {
+                    if (head->column < j && (head->next)->column > j) {
+                        element->next = head->next;
+                        head->next = element;
                         return;
                     }
-                    while (head->next) {
-                        if (head->column < j && (head->next)->column > j) {
-                            element->next = head->next;
-                            head->next = element;
-                            return;
-                        }
-                        head = head->next;
-                    }
-                    // j > all j in matrix
-                    element->next = NULL;
-                    head->next = element;
+                    head = head->next;
                 }
+                // j > all j in matrix
+                element->next = NULL;
+                head->next = element;
             }
         }
+    }
 }
 
 int getNumberOfGainedOctet(const SparseMatrix *m) {
@@ -212,9 +212,9 @@ int getNumberOfGainedOctet(const SparseMatrix *m) {
 }
 
 int getNumberOfGainedOctetWith_0(const SparseMatrix *m) {
-    int  counter = 0;
+    int counter = 0;
     counter = sizeof(m);
-    counter = counter+ m->maxColumns*m->maxLines*sizeof(Element);
+    counter = counter + m->maxColumns * m->maxLines * sizeof(Element);
     return counter;
 }
 
@@ -229,7 +229,7 @@ Element *copyElement(const Element *element) {
     return copy;
 }
 
-void sumMatrix(SparseMatrix *m1, const SparseMatrix *m2) {
+void sumMatrix(const SparseMatrix *m1, const SparseMatrix *m2) {
     for (unsigned int i = 0; i < m1->maxLines; ++i) {
         Element *headM1 = m1->matrix[i];
         Element *headM2 = m2->matrix[i];
@@ -266,21 +266,13 @@ void sumMatrix(SparseMatrix *m1, const SparseMatrix *m2) {
 }
 
 void freeMatrix(SparseMatrix *m) {
-    int i;
-    LineArray head, temp;
-    for (i = 0; i < m->maxLines; ++i) {
-        head = m->matrix[i];
+    for (int i = 0; i < m->maxLines; ++i) {
+        LineArray head = m->matrix[i];
         while (head) {
-            temp = head;
+            LineArray temp = head;
             free(temp);
             head = head->next;
         }
     }
-    free(m);
-}
-void freeMatrixArray(SparseMatrix ***m,int usedSize) {
-    int i;
-    for(i = 0; i < usedSize; i++)
-        freeMatrix((*m)[i]);
     free(m);
 }
