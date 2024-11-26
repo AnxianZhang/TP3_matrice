@@ -210,6 +210,19 @@ void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
             }
         }
     }
+    if (val == 0 && i < m->maxLines && j < m->maxColumns)
+        delete_value(&m,i,j);
+}
+void delete_value(SparseMatrix *m, unsigned int line, unsigned int column) {
+    int i;
+    Element *p=m->matrix[line],*q=m->matrix[line];
+    if(column > 0) {
+        for(i = 0; i < column - 1; i++)
+            p = p->next;
+        q=p;
+        p->next = p->next->next;
+    }
+    free(q);
 }
 
 int getNumberOfGainedOctet(const SparseMatrix *m) {

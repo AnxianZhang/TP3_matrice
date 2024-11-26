@@ -89,4 +89,11 @@ int getNumberOfGainedOctetWith_0(const SparseMatrix *m);
  */
 void freeMatrix(SparseMatrix *m);
 
+/**
+ * drop value
+ *
+ * @param m
+ */
+void delete_value(SparseMatrix *m, unsigned int i, unsigned int j)
+
 #endif //SPARSEMATRIX_H
