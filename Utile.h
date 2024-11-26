@@ -19,7 +19,7 @@ void emptyBuffer();
 int getUserNumber(const char *message);
 
 /**
- * Remove all space caracteres ' ' at the beginning and at the end of the string provided
+ * Remove all space characters ' ' at the beginning and at the end of the string provided
  *
  * @param buffer the string provided
  * @return the new string without ep

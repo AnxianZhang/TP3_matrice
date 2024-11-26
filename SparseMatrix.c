@@ -6,7 +6,6 @@
 #include "stdio.h"
 #include "SparseMatrix.h"
 
-#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 
