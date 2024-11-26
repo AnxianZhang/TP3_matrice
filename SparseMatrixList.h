@@ -13,14 +13,38 @@ typedef struct SparseMatrixList {
     unsigned int usedSpace;
 } SparseMatrixList;
 
+/**
+ * Create a new list of sparse matrix
+ *
+ * @param initialSize initial length of the list
+ * @param usedSpace remaining slot in the list
+ * @return
+ */
 SparseMatrixList *createSparseMatrixList(unsigned int initialSize, unsigned int usedSpace);
 
+/**
+ *  Add a new matrix in the list of matrix, by calling populateMatrix function
+ *
+ * @param list list of matrix
+ * @param line number of line of the new matrix
+ * @param colum number of column of the new matrix
+ */
 void addMatrixInList(SparseMatrixList *list, unsigned int line, unsigned colum);
 
-void manageMatrixArray(SparseMatrixList *list);
+/**
+ * Compare the 2 matrix
+ *
+ * @param M1
+ * @param M2
+ * @return 1 if it is the same 0 otherwise
+ */
+int isSelectedMatrixSame(SparseMatrix* M1, SparseMatrix* M2);
 
-int isSelectedMatrixSame(const SparseMatrixList *list, unsigned int numberM1, unsigned int numberM2);
-
-void freeMatrixArray(const SparseMatrixList **list, unsigned int usedSize);
+/**
+ * Free the entire list of atrix
+ *
+ * @param list
+ */
+void freeMatrixArray(SparseMatrixList *list);
 
 #endif

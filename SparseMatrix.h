@@ -14,7 +14,7 @@ typedef struct SparseMatrix {
 } SparseMatrix;
 
 /**
- * Function that fills a hollow matrix, representing a matrix of size 𝑁×𝑀,
+ * Function that fills a hollow sparse matrix, representing a sparse matrix of size 𝑁×𝑀,
  * from a user input using the keyboard (the user will therefore have to
  * enter successively 𝑁×𝑀 positive, negative or zero integers)
  *
@@ -31,10 +31,15 @@ void populateMatrix(SparseMatrix *m, unsigned int line, unsigned int column);
  */
 void showMatrix(const SparseMatrix *m);
 
+/**
+ * Show the sparse matrix in a form af array, without exposing 0 values
+ *
+ * @param m the provided matrix
+ */
 void showMatrixArray(const SparseMatrix *m);
 
 /**
- * Search a value from the coordinate given by the user
+ * Search a value from the coordinate given by the user, in a sparse matrix
  *
  * @param m the matrix given by the user
  * @param i number of line € [0, n -1]
@@ -43,19 +48,45 @@ void showMatrixArray(const SparseMatrix *m);
  */
 int searchValue(const SparseMatrix *m, unsigned int i, unsigned int j);
 
+/**
+ * Used to modify a value in a sparse matrix at position (i,j)
+ *
+ * @param m the matrix given by the user
+ * @param i number of line € [0, n -1]
+ * @param j number of column € [0, n -1]
+ * @param val new value at (i,j) position
+ */
 void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val);
 
 /**
- * Make the sum of two matrix, and store the new one in the first matrix
+ * Make the sum of two sparse matrix, and store the new one in the first sparse matrix
+ *
  * @param m1 first matrix
  * @param m2 second matrix
  */
 void sumMatrix(const SparseMatrix *m1, const SparseMatrix *m2);
 
+/**
+ * Calculate the number of octet used by a sparse matrix
+ *
+ * @param m
+ * @return
+ */
 int getNumberOfGainedOctet(const SparseMatrix *m);
 
+/**
+ * Calculate the number of octet used by a matrix that containing 0 value
+ *
+ * @param m
+ * @return
+ */
 int getNumberOfGainedOctetWith_0(const SparseMatrix *m);
 
+/**
+ * Free a sparseMatrix
+ *
+ * @param m
+ */
 void freeMatrix(SparseMatrix *m);
 
 #endif //SPARSEMATRIX_H

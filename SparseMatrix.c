@@ -6,8 +6,13 @@
 #include "stdio.h"
 #include "SparseMatrix.h"
 
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "Utile.h"
+
+#define BUFFER_MAX_SIZE 255
 
 /**
  * Get the substring before the first of ' '
@@ -18,7 +23,7 @@
  * @return the converted substring into integer
  */
 int getNumber(const char *src, const char *substring) {
-    char destination[100] = {0};
+    char destination[BUFFER_MAX_SIZE] = {0};
 
     if (substring == NULL)
         return atoi(src);
@@ -35,11 +40,12 @@ int getNumber(const char *src, const char *substring) {
  * The linked list contains only non-zero values
  *
  * @param buffer entered line
- * @param idx index of the first element in the line
+ * @param totalColumn the number of columns of the matrix
+ * @param nbColumn index of the first element in the line
  * @return all a linked list of all value != 0
  */
-LineArray populateLineArray(const char *buffer, unsigned short idx) {
-    if (buffer == NULL || buffer[0] == '\0') {
+LineArray populateLineArray(const char *buffer, const unsigned short totalColumn, const unsigned short nbColumn) {
+    if (buffer == NULL || buffer[0] == '\0' || totalColumn == nbColumn) {
         return NULL;
     }
 
@@ -49,13 +55,16 @@ LineArray populateLineArray(const char *buffer, unsigned short idx) {
         subBuffer = subBuffer + 1;
 
     const int value = getNumber(buffer, subBuffer);
-    Element *next = populateLineArray(subBuffer, idx + 1);
+    Element *next = populateLineArray(subBuffer, totalColumn, nbColumn + 1);
 
     if (value == 0)
         return next;
 
     Element *current = malloc(sizeof(Element));
-    current->column = idx;
+
+    if (current == NULL) return NULL;
+
+    current->column = nbColumn;
     current->value = value;
     current->next = next;
 
@@ -67,13 +76,18 @@ void populateMatrix(SparseMatrix *m, const unsigned int line, const unsigned int
     m->maxLines = line;
     m->matrix = malloc(sizeof(LineArray) * m->maxLines);
 
-    for (unsigned int i = 0; i < m->maxLines; ++i) {
-        char buffer[100];
-        printf("Enter you %d line:", i + 1);
+    if (m->matrix == NULL) return;
 
+    for (unsigned int i = 0; i < m->maxLines; ++i) {
+        char buffer[BUFFER_MAX_SIZE];
+        printf("Enter you %d line:", i + 1);
         fgets(buffer, sizeof(buffer), stdin);
 
-        m->matrix[i] = populateLineArray(buffer, 0);
+        char *newBuffer = coverExcessSpace(trim(buffer));
+        printf("%s", newBuffer);
+
+        m->matrix[i] = populateLineArray(newBuffer, m->maxColumns, 0);
+        free(newBuffer);
     }
 }
 
@@ -167,6 +181,9 @@ void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
         if (test == 0) {
             // element i j does not exist in matrix
             LineArray element = (Element *) malloc(sizeof(Element));
+
+            if (element == NULL) return;
+
             element->value = val;
             element->column = j;
             head = m->matrix[i];
@@ -270,8 +287,8 @@ void freeMatrix(SparseMatrix *m) {
         LineArray head = m->matrix[i];
         while (head) {
             LineArray temp = head;
-            free(temp);
             head = head->next;
+            free(temp);
         }
     }
     free(m);

@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "SparseMatrix.h"
 #include "SparseMatrixList.h"
 #include "Utile.h"
@@ -19,7 +21,6 @@ int main() {
     while (choice != '8') {
         unsigned int line = 0, column = 0;
         int selectedMatrix;
-
 
         printf("\n================ MENU ================");
         printf("\n1. Populate matrix");
@@ -102,7 +103,8 @@ int main() {
                 int secondSelectedMatrix = getNumberOfMatrix(sparseMatrixList->usedSpace);
                 if (selectedMatrix == -1 || secondSelectedMatrix == -1)
                     printf("The number of one of the matrix isn't valid, please retry");
-                else if (isSelectedMatrixSame(sparseMatrixList, selectedMatrix - 1, secondSelectedMatrix - 1))
+                else if (isSelectedMatrixSame(sparseMatrixList->list[selectedMatrix - 1],
+                                              sparseMatrixList->list[secondSelectedMatrix - 1]))
                     printf("Both matrix should have the same number of line and column, please retry");
                 else {
                     sumMatrix(sparseMatrixList->list[selectedMatrix - 1],
@@ -136,7 +138,7 @@ int main() {
         emptyBuffer();
     }
 
-    freeMatrixArray(&sparseMatrixList, sparseMatrixList->usedSpace);
+    freeMatrixArray(sparseMatrixList);
 
     return 0;
 }

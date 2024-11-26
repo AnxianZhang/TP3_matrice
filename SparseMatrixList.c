@@ -3,13 +3,11 @@
 //
 #include "SparseMatrixList.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
-int isSelectedMatrixSame(const SparseMatrixList *list, unsigned int numberM1, unsigned int numberM2) {
-    const SparseMatrix *m1 = list->list[numberM1];
-    const SparseMatrix *m2 = list->list[numberM2];
-
-    return m1->maxColumns != m2->maxColumns && m1->maxLines != m2->maxLines;
+int isSelectedMatrixSame(SparseMatrix *M1, SparseMatrix *M2) {
+    return M1->maxColumns != M2->maxColumns && M1->maxLines != M2->maxLines;
 }
 
 SparseMatrixList *createSparseMatrixList(const unsigned int initialSize, const unsigned int usedSpace) {
@@ -25,15 +23,6 @@ SparseMatrixList *createSparseMatrixList(const unsigned int initialSize, const u
     list->usedSpace = usedSpace;
 
     return list;
-}
-
-void addMatrixInList(SparseMatrixList *list, unsigned int line, unsigned colum) {
-    manageMatrixArray(list);
-    list->list[list->usedSpace] = malloc(sizeof(SparseMatrix));
-
-    if (!list->list[list->usedSpace]) return;
-
-    populateMatrix(list->list[list->usedSpace++], line, colum);
 }
 
 void manageMatrixArray(SparseMatrixList *list) {
@@ -52,8 +41,17 @@ void manageMatrixArray(SparseMatrixList *list) {
     }
 }
 
-void freeMatrixArray(const SparseMatrixList **list, const unsigned int usedSize) {
-    for (unsigned int i = 0; i < usedSize; i++)
-        freeMatrix((*list)->list[i]);
+void addMatrixInList(SparseMatrixList *list, unsigned int line, unsigned colum) {
+    manageMatrixArray(list);
+    list->list[list->usedSpace] = malloc(sizeof(SparseMatrix));
+
+    if (!list->list[list->usedSpace]) return;
+
+    populateMatrix(list->list[list->usedSpace++], line, colum);
+}
+
+void freeMatrixArray(SparseMatrixList *list) {
+    for (unsigned int i = 0; i < list->usedSpace; i++)
+        freeMatrix(list->list[i]);
     free(list);
 }
