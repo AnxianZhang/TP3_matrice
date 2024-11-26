@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "SparseMatrix.h"
 #include "SparseMatrixList.h"
 #include "Utile.h"
@@ -12,25 +11,7 @@ int getNumberOfMatrix(unsigned int currentNumberOfMatrix) {
     return value;
 }
 
-// void manageMatrixArray(SparseMatrix ***m, unsigned int *max, const unsigned int *current) {
-//     if (*current == *max) {
-//         *max += 5;
-//         SparseMatrix **newM = malloc(sizeof(SparseMatrix *) * *max);
-//
-//         for (unsigned int i = 0; i < *current; ++i)
-//             newM[i] = (*m)[i];
-//
-//         free(*m);
-//
-//         *m = newM;
-//     }
-// }
-
 int main() {
-    // unsigned int maxSize = 2, usedSize = 0;
-    //
-    // SparseMatrix **m = malloc(sizeof(SparseMatrix *) * maxSize);
-
     SparseMatrixList *sparseMatrixList = createSparseMatrixList(INITIAL_MATRIX_SIZE, 0);
 
     // ============= UI ============= */
@@ -59,9 +40,6 @@ int main() {
                 line = getUserNumber("Please enter the number of lines for the matrix:");
                 column = getUserNumber("Please enter the number of columns for the matrix:");
                 addMatrixInList(sparseMatrixList, line, column);
-            // manageMatrixArray(sparseMatrixList);
-            // m[usedSize] = malloc(sizeof(SparseMatrix));
-            // populateMatrix(m[usedSize++], line, column);
                 break;
 
             case '2':
@@ -124,8 +102,6 @@ int main() {
                 int secondSelectedMatrix = getNumberOfMatrix(sparseMatrixList->usedSpace);
                 if (selectedMatrix == -1 || secondSelectedMatrix == -1)
                     printf("The number of one of the matrix isn't valid, please retry");
-                    // else if (m[selectedMatrix - 1]->maxColumns != m[secondSelectedMatrix - 1]->maxColumns && m[
-                    //              selectedMatrix - 1]->maxLines != m[secondSelectedMatrix - 1]->maxLines)
                 else if (isSelectedMatrixSame(sparseMatrixList, selectedMatrix - 1, secondSelectedMatrix - 1))
                     printf("Both matrix should have the same number of line and column, please retry");
                 else {
@@ -161,7 +137,6 @@ int main() {
     }
 
     freeMatrixArray(&sparseMatrixList, sparseMatrixList->usedSpace);
-    //free(m);
 
     return 0;
 }
