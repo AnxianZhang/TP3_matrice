@@ -83,7 +83,6 @@ void populateMatrix(SparseMatrix *m, const unsigned int line, const unsigned int
         fgets(buffer, sizeof(buffer), stdin);
 
         char *newBuffer = coverExcessSpace(trim(buffer));
-        printf("%s", newBuffer);
 
         m->matrix[i] = populateLineArray(newBuffer, m->maxColumns, 0);
         free(newBuffer);
