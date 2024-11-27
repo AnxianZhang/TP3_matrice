@@ -38,7 +38,7 @@ void addMatrixInList(SparseMatrixList *list, unsigned int line, unsigned colum);
  * @param M2
  * @return 1 if it is the same 0 otherwise
  */
-int isSelectedMatrixSame(SparseMatrix* M1, SparseMatrix* M2);
+int isSelectedMatrixSame(const SparseMatrix *M1, const SparseMatrix *M2);
 
 /**
  * Free the entire list of atrix

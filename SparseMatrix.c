@@ -210,15 +210,16 @@ void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
         }
     }
     if (val == 0 && i < m->maxLines && j < m->maxColumns)
-        delete_value(&m,i,j);
+        delete_value(m, i, j);
 }
+
 void delete_value(SparseMatrix *m, unsigned int line, unsigned int column) {
     int i;
-    Element *p=m->matrix[line],*q=m->matrix[line];
-    if(column > 0) {
-        for(i = 0; i < column - 1; i++)
+    Element *p = m->matrix[line], *q = m->matrix[line];
+    if (column > 0) {
+        for (i = 0; i < column - 1; i++)
             p = p->next;
-        q=p;
+        q = p;
         p->next = p->next->next;
     }
     free(q);
@@ -227,8 +228,6 @@ void delete_value(SparseMatrix *m, unsigned int line, unsigned int column) {
 int getNumberOfGainedOctet(const SparseMatrix *m) {
     int i, counter = 0;
     counter = sizeof(m);
-    //printf("case de m : %d",sizeof(m[1]));
-    //printf("case de matrix : %d",sizeof(m->matrix[1]));
     LineArray head;
     for (i = 0; i < m->maxLines; ++i) {
         head = m->matrix[i];

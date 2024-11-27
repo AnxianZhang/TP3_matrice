@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int isSelectedMatrixSame(SparseMatrix *M1, SparseMatrix *M2) {
+int isSelectedMatrixSame(const SparseMatrix *M1, const SparseMatrix *M2) {
     return M1->maxColumns != M2->maxColumns && M1->maxLines != M2->maxLines;
 }
 
