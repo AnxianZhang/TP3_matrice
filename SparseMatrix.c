@@ -212,16 +212,32 @@ void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
         delete_value(m, i, j);
 }
 
+int exsistence(const SparseMatrix *m, unsigned int i, unsigned int j) {
+    Element *head = m->matrix[i];
+    while (head) {
+        if (head->column == j)
+            return 1;
+        head = head->next;
+
+    }
+    return 0;
+}
+
 void delete_value(SparseMatrix *m, unsigned int line, unsigned int column) {
     int i;
-    Element *p = m->matrix[line], *q = m->matrix[line];
-    if (column > 0) {
-        for (i = 0; i < column - 1; i++)
+    Element *p = m->matrix[line];
+    Element *q = m->matrix[line];
+    if (exsistence(m, line, column)==1) {
+        while(p->column!=column) {
+            q = p;
             p = p->next;
-        q = p;
-        p->next = p->next->next;
+        }
+        if(column==0)
+            m->matrix[line] = p->next;
+        else
+            q->next= p->next;
+        free(p);
     }
-    free(q);
 }
 
 int getNumberOfGainedOctet(const SparseMatrix *m) {
