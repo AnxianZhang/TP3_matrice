@@ -17,7 +17,7 @@ int main() {
 
     // ============= UI ============= */
     char choice = '0';
-    while (choice != '8') {
+    while (choice != '9') {
         unsigned int line = 0, column = 0;
         int selectedMatrix;
 
@@ -129,18 +129,18 @@ int main() {
                 break;
             case '8':
                 selectedMatrix = getNumberOfMatrix(sparseMatrixList->usedSpace);
-            if (selectedMatrix == -1)
-                printf("Invalid value, please retry");
-            else {
-                line = getUserNumber("Please enter the number of line that you want to drop value : ");
-                column = getUserNumber("Please enter the number of column that you want to drop value : ");
-                if (line > sparseMatrixList->list[selectedMatrix - 1]->maxLines ||
-                    column > sparseMatrixList->list[selectedMatrix - 1]->maxColumns) {
+                if (selectedMatrix == -1)
                     printf("Invalid value, please retry");
-                    break;
+                else {
+                    line = getUserNumber("Please enter the number of line that you want to drop value : ");
+                    column = getUserNumber("Please enter the number of column that you want to drop value : ");
+                    if (line > sparseMatrixList->list[selectedMatrix - 1]->maxLines ||
+                        column > sparseMatrixList->list[selectedMatrix - 1]->maxColumns) {
+                        printf("Invalid value, please retry");
+                        break;
                     }
-                delete_value(sparseMatrixList->list[selectedMatrix - 1], line - 1, column - 1);
-            }
+                    delete_value(sparseMatrixList->list[selectedMatrix - 1], line - 1, column - 1);
+                }
                 break;
 
             case '9':
