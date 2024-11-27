@@ -29,16 +29,17 @@ int main() {
         printf("\n5. Affect value");
         printf("\n6. Sum 2 matrix");
         printf("\n7. Get number of gained octet");
-        printf("\n8. Leave");
+        printf("\n8. drop value");
+        printf("\n9. Leave");
         printf("\n======================================");
-        printf("\nYour choice ?");
+        printf("\nYour choice ?: ");
 
         choice = getchar();
 
         switch (choice) {
             case '1':
-                line = getUserNumber("Please enter the number of lines for the matrix:");
-                column = getUserNumber("Please enter the number of columns for the matrix:");
+                line = getUserNumber("Please enter the number of lines for the matrix: ");
+                column = getUserNumber("Please enter the number of columns for the matrix: ");
                 addMatrixInList(sparseMatrixList, line, column);
                 break;
 
@@ -69,8 +70,8 @@ int main() {
                 if (selectedMatrix == -1)
                     printf("Invalid value, please retry");
                 else {
-                    line = getUserNumber("Please enter the number of line that you searching for:");
-                    column = getUserNumber("Please enter the number of column that you searching for:");
+                    line = getUserNumber("Please enter the number of line that you searching for: ");
+                    column = getUserNumber("Please enter the number of column that you searching for: ");
 
                     const int value = searchValue(sparseMatrixList->list[selectedMatrix - 1], line, column);
                     if (value == -1)
@@ -85,9 +86,9 @@ int main() {
                 if (selectedMatrix == -1)
                     printf("Invalid value, please retry");
                 else {
-                    line = getUserNumber("Please enter the number of line that you want to affect value :");
-                    column = getUserNumber("Please enter the number of column that you want to affect value :");
-                    int value = getUserNumber("Please enter the number you want to insert :");
+                    line = getUserNumber("Please enter the number of line that you want to affect value : ");
+                    column = getUserNumber("Please enter the number of column that you want to affect value : ");
+                    int value = getUserNumber("Please enter the number you want to insert : ");
                     if (line > sparseMatrixList->list[selectedMatrix - 1]->maxLines ||
                         column > sparseMatrixList->list[selectedMatrix - 1]->maxColumns) {
                         printf("Invalid value, please retry");
@@ -126,8 +127,23 @@ int main() {
                            getNumberOfGainedOctetWith_0(sparseMatrixList->list[selectedMatrix - 1]));
                 }
                 break;
-
             case '8':
+                selectedMatrix = getNumberOfMatrix(sparseMatrixList->usedSpace);
+            if (selectedMatrix == -1)
+                printf("Invalid value, please retry");
+            else {
+                line = getUserNumber("Please enter the number of line that you want to drop value : ");
+                column = getUserNumber("Please enter the number of column that you want to drop value : ");
+                if (line > sparseMatrixList->list[selectedMatrix - 1]->maxLines ||
+                    column > sparseMatrixList->list[selectedMatrix - 1]->maxColumns) {
+                    printf("Invalid value, please retry");
+                    break;
+                    }
+                delete_value(sparseMatrixList->list[selectedMatrix - 1], line - 1, column - 1);
+            }
+                break;
+
+            case '9':
                 printf("\n======== PROGRAM FINISHED ========\n");
                 break;
 
