@@ -70,7 +70,7 @@ LineArray populateLineArray(const char *buffer, const unsigned short totalColumn
     return current;
 }
 
-void populateMatrix(SparseMatrix *m, const unsigned int line, const unsigned int column) {
+void populateMatrix(SparseMatrix *m, unsigned int line, unsigned int column) {
     m->maxColumns = column;
     m->maxLines = line;
     m->matrix = malloc(sizeof(LineArray) * m->maxLines);

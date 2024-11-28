@@ -94,6 +94,6 @@ void freeMatrix(SparseMatrix *m);
  *
  * @param m
  */
-void delete_value(SparseMatrix *m, unsigned int i, unsigned int j);
+void delete_value(SparseMatrix *m, unsigned int line, unsigned int column);
 
 #endif //SPARSEMATRIX_H
