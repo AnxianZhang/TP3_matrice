@@ -232,7 +232,7 @@ void delete_value(SparseMatrix *m, unsigned int line, unsigned int column) {
             q = p;
             p = p->next;
         }
-        if(column==0)
+        if(m->matrix[line] == p)
             m->matrix[line] = p->next;
         else
             q->next= p->next;
