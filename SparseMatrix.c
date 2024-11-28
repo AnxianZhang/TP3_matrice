@@ -124,10 +124,10 @@ void showMatrixArray(const SparseMatrix *m) {
     LineArray head;
     for (i = 0; i < m->maxLines; ++i) {
         head = m->matrix[i];
-        printf("\n| %d |  ==>  ", i);
+        printf("\n| %d |  ==>  ", i + 1);
         while (head) {
             if (head->value != 0) {
-                printf("||val: %d - col: %d||  ==>  ", head->value, head->column);
+                printf("||val: %d - col: %d||  ==>  ", head->value, head->column + 1);
                 head = head->next;
             }
         }
@@ -212,32 +212,24 @@ void addValueAt(SparseMatrix *m, unsigned int i, unsigned int j, int val) {
         delete_value(m, i, j);
 }
 
-int exsistence(const SparseMatrix *m, unsigned int i, unsigned int j) {
-    Element *head = m->matrix[i];
-    while (head) {
-        if (head->column == j)
-            return 1;
-        head = head->next;
-
-    }
-    return 0;
-}
-
 void delete_value(SparseMatrix *m, unsigned int line, unsigned int column) {
-    int i;
-    Element *p = m->matrix[line];
-    Element *q = m->matrix[line];
-    if (exsistence(m, line, column)==1) {
-        while(p->column!=column) {
-            q = p;
-            p = p->next;
-        }
-        if(column==0)
-            m->matrix[line] = p->next;
-        else
-            q->next= p->next;
-        free(p);
+    if (!m || !m->matrix[line]) return;
+
+    Element *current = m->matrix[line];
+    Element *previous = NULL;
+
+    while (current->column != column) {
+        previous = current;
+        current = current->next;
     }
+
+    if (!previous)
+        m->matrix[line] = current->next;
+    else {
+        previous->next = current->next;
+    }
+
+    free(current);
 }
 
 int getNumberOfGainedOctet(const SparseMatrix *m) {
