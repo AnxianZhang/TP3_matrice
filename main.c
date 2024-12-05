@@ -126,7 +126,7 @@ int main() {
                     printf("\nNumber of octet if all 0 are stored: %d\n",
                            getNumberOfGainedOctetWith_0(sparseMatrixList->list[selectedMatrix - 1]));
                 }
-                break;
+                         break;
             case '8':
                 selectedMatrix = getNumberOfMatrix(sparseMatrixList->usedSpace);
                  if (selectedMatrix == -1)
