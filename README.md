@@ -1,5 +1,6 @@
 # Context
-This project was created at university. Its aim is to manipulate adjacency matrices.
+This project was **created at university**. 
+Its aim is to manipulate adjacency matrices.
 
 # Installation
 1. Download GCC.
